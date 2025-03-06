@@ -20,47 +20,101 @@
             width: 100vw;
             height: 100vh;
         }
-        .typewriter {
+        .profile {
             position: absolute;
             top: 10%;
-            width: 100%;
-            font-size: 2rem;
-            white-space: nowrap;
-            overflow: hidden;
-            border-right: 2px solid #00ff00;
-            display: inline-block;
-            animation: typing 3s steps(30) forwards, blink 0.8s infinite;
-        }
-        @keyframes typing {
-            from { width: 0; }
-            to { width: 100%; }
-        }
-        @keyframes blink {
-            50% { border-color: transparent; }
-        }
-        .cyber-btn {
-            position: absolute;
-            bottom: 10%;
             left: 50%;
             transform: translateX(-50%);
-            padding: 15px 30px;
-            background: rgba(0, 255, 0, 0.2);
+            width: 50%;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 20px;
             border: 2px solid #00ff00;
             color: #00ff00;
-            font-size: 1.5rem;
-            cursor: pointer;
-            transition: 0.3s;
         }
-        .cyber-btn:hover {
-            background: #00ff00;
-            color: black;
+        .profile img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 2px solid #00ff00;
+        }
+        .profile input, .profile textarea {
+            width: 80%;
+            background: black;
+            color: #00ff00;
+            border: 1px solid #00ff00;
+            padding: 5px;
+            margin-top: 5px;
+        }
+        .friends-list {
+            position: absolute;
+            top: 55%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50%;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            border: 2px solid #00ff00;
+            color: #00ff00;
+        }
+        .friends-list div {
+            cursor: pointer;
+            padding: 5px;
+        }
+        .friends-list div:hover {
+            text-decoration: underline;
+        }
+        .music-player {
+            position: absolute;
+            bottom: 5%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50%;
+        }
+        .comment-section {
+            position: absolute;
+            top: 70%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50%;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            border: 2px solid #00ff00;
+            color: #00ff00;
         }
     </style>
 </head>
 <body>
     <canvas id="matrix"></canvas>
-    <div class="typewriter">Welcome to the Cyberpunk Hacker Zone...</div>
-    <button class="cyber-btn" onclick="startGame()">Enter</button>
+    <div class="profile">
+        <h3>Customize Your Profile</h3>
+        <img id="profilePic" src="https://via.placeholder.com/100" alt="Profile Picture">
+        <input type="text" id="profileName" placeholder="Enter your name...">
+        <textarea id="profileBio" placeholder="Enter a short bio..."></textarea>
+        <button onclick="saveProfile()">Save Profile</button>
+        <h3 id="displayName"></h3>
+        <p id="displayBio"></p>
+    </div>
+    
+    <div class="friends-list">
+        <h3>Friends List</h3>
+        <div onclick="alert('Visiting Friend 1!')">🔹 Friend 1</div>
+        <div onclick="alert('Visiting Friend 2!')">🔹 Friend 2</div>
+        <div onclick="alert('Visiting Friend 3!')">🔹 Friend 3</div>
+    </div>
+
+    <div class="comment-section">
+        <h3>Comment Section</h3>
+        <textarea id="commentInput" placeholder="Leave a comment..."></textarea>
+        <button onclick="postComment()">Post Comment</button>
+        <div id="comments"></div>
+    </div>
+    
+    <div class="music-player">
+        <audio controls autoplay loop>
+            <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mp3">
+            Your browser does not support the audio element.
+        </audio>
+    </div>
     
     <script>
         const canvas = document.getElementById("matrix");
@@ -81,8 +135,21 @@
             });
         }
         setInterval(drawMatrixRain, 50);
-        function startGame() {
-            alert("Game section coming soon!");
+        
+        function saveProfile() {
+            document.getElementById("displayName").innerText = document.getElementById("profileName").value;
+            document.getElementById("displayBio").innerText = document.getElementById("profileBio").value;
+        }
+        
+        function postComment() {
+            const input = document.getElementById("commentInput");
+            const comment = input.value;
+            if (comment.trim() === "") return;
+            const commentBoard = document.getElementById("comments");
+            const commentDiv = document.createElement("div");
+            commentDiv.textContent = "🔹 " + comment;
+            commentBoard.prepend(commentDiv);
+            input.value = "";
         }
     </script>
 </body>
