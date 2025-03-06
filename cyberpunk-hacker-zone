@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cyberpunk Hacker Zone</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background: black;
+            color: #00ff00;
+            font-family: 'Courier New', monospace;
+            text-align: center;
+        }
+        canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+        }
+        .typewriter {
+            position: absolute;
+            top: 10%;
+            width: 100%;
+            font-size: 2rem;
+            white-space: nowrap;
+            overflow: hidden;
+            border-right: 2px solid #00ff00;
+            display: inline-block;
+            animation: typing 3s steps(30) forwards, blink 0.8s infinite;
+        }
+        @keyframes typing {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+        @keyframes blink {
+            50% { border-color: transparent; }
+        }
+        .cyber-btn {
+            position: absolute;
+            bottom: 10%;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 15px 30px;
+            background: rgba(0, 255, 0, 0.2);
+            border: 2px solid #00ff00;
+            color: #00ff00;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .cyber-btn:hover {
+            background: #00ff00;
+            color: black;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="matrix"></canvas>
+    <div class="typewriter">Welcome to the Cyberpunk Hacker Zone...</div>
+    <button class="cyber-btn" onclick="startGame()">Enter</button>
+    
+    <script>
+        const canvas = document.getElementById("matrix");
+        const ctx = canvas.getContext("2d");
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        const columns = Math.floor(canvas.width / 20);
+        const drops = Array(columns).fill(0);
+        function drawMatrixRain() {
+            ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = "#00ff00";
+            ctx.font = "20px monospace";
+            drops.forEach((y, index) => {
+                const text = String.fromCharCode(Math.random() * 128);
+                ctx.fillText(text, index * 20, y);
+                drops[index] = y > canvas.height + Math.random() * 10000 ? 0 : y + 20;
+            });
+        }
+        setInterval(drawMatrixRain, 50);
+        function startGame() {
+            alert("Game section coming soon!");
+        }
+    </script>
+</body>
+</html>
