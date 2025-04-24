@@ -21,6 +21,19 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
+// Helpers
+const serialize = (arr) => {
+  const result = {};
+  arr.forEach((subArr, i) => {
+    result[i] = subArr;
+  });
+  return result;
+};
+
+const deserialize = (obj) => {
+  return Object.values(obj);
+};
+
 // Components
 const Square = ({ value, onClick }) => (
   <button className="w-12 h-12 border border-gray-400 text-xl font-bold hover:bg-gray-100 transition" onClick={onClick}>
@@ -80,7 +93,7 @@ const UltimateTicTacToe = () => {
     const unsub = onSnapshot(doc(db, 'games', gameId), (docSnap) => {
       if (docSnap.exists()) {
         const data = docSnap.data();
-        setBoards(data.boards);
+        setBoards(deserialize(data.boards));
         setWinners(data.winners);
         setXIsNext(data.xIsNext);
         setActiveBoard(data.activeBoard);
@@ -93,7 +106,7 @@ const UltimateTicTacToe = () => {
 
   const saveGame = async (newBoards, newWinners, nextTurn, newActiveBoard, newMainWinner, updatedScore) => {
     await setDoc(doc(db, 'games', gameId), {
-      boards: newBoards,
+      boards: serialize(newBoards),
       winners: newWinners,
       xIsNext: nextTurn,
       activeBoard: newActiveBoard,
@@ -129,7 +142,7 @@ const UltimateTicTacToe = () => {
     const newBoards = Array(9).fill(null).map(() => Array(9).fill(null));
     const newWinners = Array(9).fill(null);
     await setDoc(doc(db, 'games', newId), {
-      boards: newBoards,
+      boards: serialize(newBoards),
       winners: newWinners,
       xIsNext: true,
       activeBoard: null,
@@ -155,7 +168,7 @@ const UltimateTicTacToe = () => {
     const resetBoards = Array(9).fill(null).map(() => Array(9).fill(null));
     const resetWinners = Array(9).fill(null);
     await setDoc(doc(db, 'games', gameId), {
-      boards: resetBoards,
+      boards: serialize(resetBoards),
       winners: resetWinners,
       xIsNext: true,
       activeBoard: null,
